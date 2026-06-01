@@ -6,19 +6,19 @@ from nltk.corpus import stopwords
 
 def process_tweet(tweet: str) -> list[str]:
     """
-    Bereinigt einen Rohtext durch Entfernen von Rauschen, Stoppwörtern und Satzzeichen.
-    Wendet Stemming und logische Negation (z.B. 'NOT_good') an.
+    Cleans raw text by removing noise, stop words and punctuation.
+    Applies stemming and logical negation (e.g. 'NOT_good').
 
     Args:
-        tweet (str): Der rohe Eingabetext.
+        tweet (str): The raw input text.
 
     Returns:
-        list[str]: Eine Liste von bereinigten und normalisierten Tokens.
+        list[str]: A list of cleaned and normalised tokens.
     """
     stemmer = PorterStemmer()
     stop_words = set(stopwords.words("english"))
     
-    # Rauschen entfernen (Ticker, RTs, Hyperlinks)
+    # Remove noise (Ticker, RTs, hyperlinks)
     tweet = re.sub(r"\$\w*", "", tweet)
     tweet = re.sub(r"^RT[\s]+", "", tweet)
     tweet = re.sub(r"https?:\/\/.*[\r\n]*", "", tweet)
@@ -56,14 +56,14 @@ def process_tweet(tweet: str) -> list[str]:
 
 def process_movie_review(tokens: list[str]) -> list[str]:
     """
-    Angepasstes Preprocessing für bereits tokenisierte Movie Reviews.
-    Entfernt Stoppwörter sowie Satzzeichen und wendet den PorterStemmer an.
+    Custom preprocessing for pre-tokenised movie reviews.
+    Removes stop words and punctuation, and applies PorterStemmer.
 
     Args:
-        tokens (list[str]): Die bereits vom NLTK-Korpus aufgeteilten Wörter.
+        tokens (list[str]): The words already split by the NLTK corpus.
 
     Returns:
-        list[str]: Eine Liste von bereinigten und normalisierten Tokens.
+        list[str]: A list of cleaned and normalised tokens.
     """
     stemmer = PorterStemmer()
     stop_words = set(stopwords.words("english"))

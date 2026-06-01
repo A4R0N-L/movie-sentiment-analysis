@@ -2,30 +2,30 @@ import numpy as np
 
 def sigmoid(z: np.ndarray) -> np.ndarray:
     """
-    Berechnet die Sigmoid-Funktion, um Werte auf den Bereich [0, 1] abzubilden.
-    Nutzt np.clip, um Overflow-Warnungen bei extremen Werten zu verhindern.
+    Calculates the sigmoid function to map values to the range [0, 1].
+    Uses np.clip to prevent overflow warnings for extreme values.
 
     Args:
-        z (np.ndarray): Das Skalarprodukt aus Features und Gewichten.
+        z (np.ndarray): The dot product of features and weights.
 
     Returns:
-        np.ndarray: Wahrscheinlichkeit, dass die Eingabe zur positiven Klasse gehört.
+        np.ndarray: Probability that the input belongs to the positive class.
     """
     z = np.clip(z, -500, 500)
     return 1 / (1 + np.exp(-z))
 
 def compute_cost(y: np.ndarray, h: np.ndarray, m: int, epsilon: float = 1e-15) -> float:
     """
-    Berechnet die Binary Cross-Entropy Loss (Kostenfunktion).
+    Calculates the binary cross-entropy loss (cost function).
 
     Args:
-        y (np.ndarray): Wahre Labels (0 oder 1).
-        h (np.ndarray): Vorhersagen des Modells (Wahrscheinlichkeiten).
-        m (int): Anzahl der Trainingsbeispiele.
-        epsilon (float): Minimalwert, um log(0) Fehler zu vermeiden.
+        y (np.ndarray): True labels (0 or 1).
+        h (np.ndarray): Model predictions (probabilities).
+        m (int): Number of training examples.
+        epsilon (float): Threshold value to avoid log(0) error.
 
     Returns:
-        float: Der durchschnittliche Fehler (Loss).
+        float: The average error (loss).
     """
     h = np.clip(h, epsilon, 1 - epsilon)
     cost = -1/m * (np.dot(y.transpose(), np.log(h)) + np.dot((1-y).transpose(), np.log(1-h)))
@@ -33,45 +33,45 @@ def compute_cost(y: np.ndarray, h: np.ndarray, m: int, epsilon: float = 1e-15) -
 
 def compute_gradient(x: np.ndarray, y: np.ndarray, h: np.ndarray, m: int) -> np.ndarray:
     """
-    Berechnet den Gradienten der Kostenfunktion für den Gradientenabstieg.
+    Calculates the gradient of the cost function for gradient descent.
 
     Args:
-        x (np.ndarray): Merkmalsmatrix.
-        y (np.ndarray): Wahre Labels.
-        h (np.ndarray): Aktuelle Vorhersagen.
-        m (int): Anzahl der Trainingsbeispiele.
+        x (np.ndarray): Feature matrix.
+        y (np.ndarray): True labels.
+        h (np.ndarray): Current predictions.
+        m (int): Number of training examples.
 
     Returns:
-        np.ndarray: Der Vektor der Gradienten für jedes Gewicht.
+        np.ndarray: The vector of gradients for each weight.
     """
     return 1/m * np.dot(x.transpose(), (h - y))
 
 def update_weights(weight: np.ndarray, grad: np.ndarray, eta: float) -> np.ndarray:
     """
-    Aktualisiert die Gewichte in entgegengesetzter Richtung des Gradienten.
+    Updates the weights in the direction opposite to the gradient.
 
     Args:
-        weight (np.ndarray): Aktuelle Gewichte.
-        grad (np.ndarray): Berechneter Gradient.
-        eta (float): Lernrate (Alpha).
+        weight (np.ndarray): Current weights.
+        grad (np.ndarray): Calculated gradient.
+        eta (float): Learning rate (alpha).
 
     Returns:
-        np.ndarray: Die neuen, angepassten Gewichte.
+        np.ndarray: The new, updated weights.
     """
     return weight - (eta * grad)
 
 def gradient_descent(x: np.ndarray, y: np.ndarray, alpha: float, num_iters: int) -> tuple[np.ndarray, list[float]]:
     """
-    Trainiert das Logistic Regression Modell mittels Gradientenabstieg.
+    Trains the logistic regression model using gradient descent.
 
     Args:
-        x (np.ndarray): Trainings-Features.
-        y (np.ndarray): Trainings-Labels.
-        alpha (float): Die Lernrate.
-        num_iters (int): Anzahl der Trainings-Iterationen (Epochen).
+        x (np.ndarray): Training features.
+        y (np.ndarray): Training labels.
+        alpha (float): The learning rate.
+        num_iters (int): Number of training iterations (epochs).
 
     Returns:
-        tuple: (Die final trainierten Gewichte, Historie der Loss-Werte).
+        tuple: (The final trained weights, history of loss values).
     """
     m = x.shape[0]
     cost_history = []
@@ -92,13 +92,13 @@ def gradient_descent(x: np.ndarray, y: np.ndarray, alpha: float, num_iters: int)
 
 def predict(x: np.ndarray, weight: np.ndarray) -> np.ndarray:
     """
-    Klassifiziert neue Datenpunkte anhand der trainierten Gewichte.
+    Classifies new data points using the trained weights.
 
     Args:
-        x (np.ndarray): Test-Features.
-        weight (np.ndarray): Trainierte Modellgewichte.
+        x (np.ndarray): Test features.
+        weight (np.ndarray): Trained model weights.
 
     Returns:
-        np.ndarray: Array von Booleans (True für positiv, False für negativ).
+        np.ndarray: Array of Booleans (True for positive, False for negative).
     """
     return sigmoid(np.dot(x, weight)) >= 0.5

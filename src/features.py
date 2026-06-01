@@ -3,14 +3,14 @@ import emoji
 
 def build_freqs(tokens_list: list[list[str]], labels: np.ndarray) -> dict[tuple[str, int], int]:
     """
-    Erstellt ein Frequenz-Wörterbuch aus einer Liste von Token-Listen und deren Labels.
+    Creates a frequency dictionary from a list of token lists and their labels.
 
     Args:
-        tokens_list (list[list[str]]): Eine Liste, die wiederum Listen von Wörtern (Tokens) enthält.
-        labels (np.ndarray): Array der zugehörigen Klassifikationen (0 oder 1).
+        tokens_list (list[list[str]]): A list containing lists of words (tokens).
+        labels (np.ndarray): An array of the corresponding classifications (0 or 1).
 
     Returns:
-        dict: Ein Wörterbuch, das Paare aus (Wort, Label) auf ihre absolute Häufigkeit mappt.
+        dict: A dictionary that maps (word, label) pairs to their absolute frequency.
     """
     freqs = {}
     for y, tokens in zip(labels, tokens_list):
@@ -24,13 +24,13 @@ def build_freqs(tokens_list: list[list[str]], labels: np.ndarray) -> dict[tuple[
 
 def count_emojis(tokens: list[str]) -> int:
     """
-    Zählt die Anzahl klassischer (ASCII) und moderner (Unicode) Emojis in einer Token-Liste.
+    Counts the number of classic (ASCII) and modern (Unicode) emojis in a list of tokens.
 
     Args:
-        tokens (list[str]): Die zu analysierende Wortliste.
+        tokens (list[str]): The list of words to be analysed.
 
     Returns:
-        int: Die Gesamtsumme der gefundenen Emojis.
+        int: The total number of emojis found.
     """
     classic_faces = [
         ":)", ":-)", ":D", ":-D", ":(", ":-(", ":|", ":-|", 
@@ -47,14 +47,14 @@ def count_emojis(tokens: list[str]) -> int:
 
 def extract_features(tokens: list[str], freqs: dict[tuple[str, int], int]) -> np.ndarray:
     """
-    Extrahiert numerische Merkmale (Features) aus einer Token-Liste basierend auf Frequenzen.
+    Extracts numerical features from a list of tokens based on frequencies.
 
     Args:
-        tokens (list[str]): Die bereinigten Wörter eines Dokuments.
-        freqs (dict): Das trainierte Frequenz-Wörterbuch.
+        tokens (list[str]): The tokenised words of a document.
+        freqs (dict): The trained frequency dictionary.
 
     Returns:
-        np.ndarray: Ein 8-dimensionaler Vektor mit den extrahierten Merkmalen (inklusive Bias).
+        np.ndarray: An 8-dimensional array containing the extracted features (including bias).
     """
     pos = 0
     neg = 0
