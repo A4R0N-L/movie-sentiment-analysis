@@ -1,4 +1,5 @@
 # Binary Sentiment Analysis: From Scratch to Production-Ready
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/aaronluenendonk/)
 
 A custom, bare-bones implementation of a Logistic Regression model to classify sentiment in textual data. This repository demonstrates the transition from a procedural Jupyter Notebook to a modular, scalable Software Engineering architecture, complete with custom mathematical implementations and feature scaling.
 
